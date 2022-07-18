@@ -1,59 +1,40 @@
 package prototype;
-
-//import java.util.Arrays;
-
-
 import Exceptions_pakg.*;
-
-
-import java.util.ArrayList;
-
 abstract class Flights implements FlightBooking {
-
-
   private String flight_no;
   private int total_seats ;
-
-
-
-  private ArrayList<Integer> booked_seats = new ArrayList<Integer>(total_seats);
-
-
-  private ArrayList<Integer> availableSeats = new ArrayList<Integer>();
+  private int [] booked_seats;
+  private int [] availableSeats;
 
 
   public Flights(String flight_no,int total_seats) {
     this.flight_no = flight_no;
     this.total_seats= total_seats;
-//    for(int i =0;i<getTotal_seats();i++){
-//      this.booked_seats.add(i);
-//      System.out.println(booked_seats);
-//    }
-//    for(int seat:this.booked_seats){
-//      if(seat!=0){
-//        this.availableSeats.add(seat);
-//      }
-//    }
+    this.booked_seats = new int[total_seats];
+    this.availableSeats = new int[total_seats];
     for(int i =0;i<total_seats;i++){
-      this.availableSeats.add(i+1);
-      this.booked_seats.add(i+1);
+      availableSeats[i]=i+1;
+
     }
   }
 
   @Override
-  public void Booking(int SEAT_NO) throws seatnotavailableException,SeatOutOfBoundException{
-    System.out.println("Available Seats:"+availableSeats);
-    System.out.println("Booked Seats: "+booked_seats);
+  public synchronized void Booking(int SEAT_NO) throws seatnotavailableException,SeatOutOfBoundException{
+    System.out.println(Thread.currentThread().getName()+" is booking seat "+SEAT_NO+" for flight "+getFlight_no());
+//    System.out.println("Available Seats:"+availableSeats);
+//    System.out.println("Booked Seats: "+booked_seats);
+    try{
+      Thread.sleep((long) Math.random() * 10000);
+    }catch (Exception e){
+      System.out.println(e.getMessage());
+    }
     try {
-      if(SEAT_NO < availableSeats.size()) {
+      if(SEAT_NO < total_seats &&  SEAT_NO > 0) {
         try {
-          if (checkseat(SEAT_NO)) {
-            this.availableSeats.remove(this.availableSeats.indexOf(SEAT_NO));
-            // this.booked_seats.add(SEAT_NO);
-            this.booked_seats.set(SEAT_NO - 1, 0);
-            // this.availableSeats.set(,0);
-            //System.out.println(availableSeats);
-
+          if (!checkseat(SEAT_NO)) {
+              this.availableSeats[SEAT_NO-1]=0;
+              this.booked_seats[SEAT_NO-1]=SEAT_NO;
+             System.out.println("Seat "+SEAT_NO+" is booked by thread "+Thread.currentThread().getName()+" for flight " +getFlight_no());
             //System.out.println(getBooked_seats().size());
             System.out.println(getClass().getSimpleName() + " Flight Number :" + getFlight_no());
             System.out.println(getClass().getSimpleName() + " Your SEAT NO: " + SEAT_NO);
@@ -67,36 +48,16 @@ abstract class Flights implements FlightBooking {
         }
       }
       else {
-        throw new SeatOutOfBoundException("Please Enter valid seat number\n Total seat are "+getTotal_seats());
+        throw new SeatOutOfBoundException("Please Enter valid seat number\nTotal seat are "+getTotal_seats());
       }
     }catch (SeatOutOfBoundException e){
-      throw new SeatOutOfBoundException("Please Enter valid seat number\n Total seat are "+getTotal_seats());
+      throw new SeatOutOfBoundException("Please Enter valid seat number\nTotal seat are "+getTotal_seats());
 
     }
   }
- public boolean checkseat(int num) {
-   for (int seat : this.availableSeats) {
-     if (seat == num) {
-       return true;
-     }
-   }
-   return false;
+ public boolean checkseat(int SEAT_NO) {
+   return  this.availableSeats[SEAT_NO-1]==0;
  }
-//  @Override
-//  public void print_details() {
-//    System.out.println("flight No: " + getFlight_no());
-//    System.out.println("Total Seats: " + getTotal_seats());
-//    //System.out.println("Booked seats: "+getBooked_seats());
-////    System.out.println("Available Seats: "+getAvailable_seats());
-////    for(int i = 0; i<getTotal_seats(); i++){
-////      booked_seats[i] = i;
-////      System.out.println(booked_seats);
-////    }
-////
-////    List Booked_seat = Arrays.asList(booked_seats);
-//
-//
-//  }
 
   public String getFlight_no() {
     return flight_no;
@@ -114,22 +75,20 @@ abstract class Flights implements FlightBooking {
     this.total_seats = total_seats;
     return total_seats;
   }
-
-  public ArrayList<Integer> getBooked_seats() {
+  public int[] getBooked_seats() {
     return booked_seats;
   }
 
-  public void setBooked_seats(ArrayList<Integer> booked_seats) {
+  public void setBooked_seats(int[] booked_seats) {
     this.booked_seats = booked_seats;
   }
-  public ArrayList<Integer> getAvailableSeats() {
+  public int[] getAvailableSeats() {
     return availableSeats;
   }
 
-  public void setAvailableSeats(ArrayList<Integer> availableSeats) {
+  public void setAvailableSeats(int[] availableSeats) {
     this.availableSeats = availableSeats;
   }
-
 
 }
 
