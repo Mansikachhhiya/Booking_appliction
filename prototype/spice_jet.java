@@ -19,4 +19,14 @@ public class spice_jet extends Flights implements FlightBooking{
       System.out.println(e.getMessage());
     }
   }
+
+  @Override
+  public void cancleBooking(int SEAT_NO) throws seatnotavailableException {
+    try {
+      super.cancleBooking(SEAT_NO);
+    } catch (seatnotavailableException e) {
+      System.out.println(e.getMessage());
+    }
+  }
+
 }

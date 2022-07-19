@@ -17,5 +17,14 @@ public class Air_India extends Flights implements FlightBooking{
 
     }
 
+  @Override
+  public void cancleBooking(int SEAT_NO) throws seatnotavailableException {
+    try {
+      super.cancleBooking(SEAT_NO);
+    }catch (seatnotavailableException e){
+      System.out.println(e.getMessage());
+    }
+  }
+
 
 }
