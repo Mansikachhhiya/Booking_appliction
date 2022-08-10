@@ -54,7 +54,7 @@ abstract class Flights implements FlightBooking {
 //        System.out.println("Available Seats:"+getAvailableSeats());
 //    System.out.println("Booked Seats: "+getBooked_seats());
     try {
-      Thread.sleep(5000);
+      Thread.sleep((long) Math.random()*5000);
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }

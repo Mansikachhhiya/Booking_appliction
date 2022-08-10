@@ -31,6 +31,11 @@ public static void main(String[] args) throws seatnotavailableException, SeatOut
 
   Thread thread_3 = new Thread(()->{
     try{
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
       book1.Booking(6);
     // book1.cancleBooking(6);
 

@@ -12,7 +12,7 @@ public class spice_jet extends Flights implements FlightBooking{
   }
 
   @Override
-  public void Booking(int SEAT_NO) throws seatnotavailableException, SeatOutOfBoundException {
+  public synchronized void Booking(int SEAT_NO) throws seatnotavailableException, SeatOutOfBoundException {
     try {
       super.Booking(SEAT_NO);
     } catch (seatnotavailableException | SeatOutOfBoundException e) {
@@ -21,7 +21,7 @@ public class spice_jet extends Flights implements FlightBooking{
   }
 
   @Override
-  public void cancleBooking(int SEAT_NO) throws seatnotavailableException {
+  public synchronized void cancleBooking(int SEAT_NO) throws seatnotavailableException {
     try {
       super.cancleBooking(SEAT_NO);
     } catch (seatnotavailableException e) {
