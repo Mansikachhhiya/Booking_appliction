@@ -29,7 +29,7 @@ public interface AirIndiaInterface {
       this.Total_seat = total_seat;
       for (int i =0;i<total_seat;i++){
         availableSeats.add(i+1);
-        book_seats.add(i+1);
+
       }
 
 

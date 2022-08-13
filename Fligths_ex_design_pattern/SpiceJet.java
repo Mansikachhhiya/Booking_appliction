@@ -1,5 +1,7 @@
 package Fligths_ex_design_pattern;
 
+import Fligths_ex_design_pattern.Enum.FlightType;
+
 public class SpiceJet implements FlightInterface {
 
   @Override
